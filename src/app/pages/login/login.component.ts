@@ -11,18 +11,18 @@ export class LoginComponent {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
-  onSubmit(): void {
-    this.authService.login(this.username, this.password).subscribe({
-      next: (response) => {
-        alert('Login exitoso!');
-        console.log('Respuesta:', response);
+  onSubmit() {
+    this.authService.login(this.username, this.password).subscribe(
+      response => {
+        console.log('Login exitoso:', response);
+        // Redirigir a la página principal después del login exitoso
       },
-      error: (err) => {
+      error => {
+        console.error('Error de login:', error);
         this.errorMessage = 'Usuario o contraseña incorrectos';
-        console.error(err);
       }
-    });
+    );
   }
 }
