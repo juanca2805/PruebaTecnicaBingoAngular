@@ -27,5 +27,9 @@ export class RoomService {
     return this.http.post<any>(url, {}); 
   }
   
+  startGame(roomId: number): Observable<any> {
+    const params = { roomId: roomId.toString() };
+    return this.http.post(`${this.apiUrl}/startGame`, {}, { params });
+  }
   
 }

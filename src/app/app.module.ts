@@ -5,10 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { RoomListComponent } from './pages/room-list/room-list.component';
-import { RoomDetailComponent } from './pages/room-detail/room-detail.component';
-import { GameBoardComponent } from './pages/game-board/game-board.component';
 import { FormsModule } from '@angular/forms';  
 import { HttpClientModule } from '@angular/common/http';
+import { BingoRoomComponent } from './pages/bingo-room/bingo-room.component';
 
 @NgModule({
   declarations: [
@@ -16,8 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     RegisterComponent,
     RoomListComponent,
-    RoomDetailComponent,
-    GameBoardComponent,
+    BingoRoomComponent,
 
   ],
   imports: [
