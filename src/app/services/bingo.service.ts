@@ -1,65 +1,64 @@
 import { Injectable } from '@angular/core';
-import { Client, IStompSocket } from '@stomp/stompjs';
-import * as SockJS from 'sockjs-client';
-import { Subject, Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BingoService {
-  private client: Client;
-  private cardSubject: Subject<number[][]> = new Subject<number[][]>();  // Emite cartones
-  private numberSubject: Subject<number> = new Subject<number>();  // Emite números sorteados
-
-  constructor() {
-    this.client = new Client();
-    
-    // Configuración de la conexión WebSocket
-    this.client.webSocketFactory = () => {
-      return new SockJS('http://localhost:8080/') as IStompSocket;
-    };
-
-    this.client.onConnect = () => {
-      console.log('Conectado al WebSocket');
-    };
-
-    this.client.onStompError = (error) => {
-      console.error('Error STOMP:', error);
-    };
-
-    this.client.activate();  // Activar la conexión WebSocket
+  connectToNumbers(roomId: number) {
+    throw new Error('Method not implemented.');
   }
+  connectToCard // Método para desconectar la conexión SSE
+    (roomId: number, playerId: number) {
+      throw new Error('Method not implemented.');
+  }
+  private eventSource: EventSource | null = null;
+  private bingoCardSubject = new Subject<number[][]>();
+  private numbersSubject = new Subject<number>();
+  private eventsSubject = new Subject<string>();
 
-  // Método para suscribirse al cartón de Bingo de un jugador
-  public subscribeToBingoCard(roomId: number, playerId: number): Observable<number[][]> {
-    const destination = `/topic/${roomId}/card/${playerId}`;
-    this.client.subscribe(destination, (message) => {
-      if (message.body) {
-        const bingoCard = JSON.parse(message.body);
-        this.cardSubject.next(bingoCard);  // Emitir el cartón recibido
+  // Método para conectarse a la sala a través de SSE
+  connectToRoom(roomId: number): void {
+    this.eventSource = new EventSource(`/api/rooms/${roomId}/bingo/connect`);
+
+    this.eventSource.onmessage = (event) => {
+      if (event.data) {
+        const data = JSON.parse(event.data);
+        if (data.bingoCard) {
+          this.bingoCardSubject.next(data.bingoCard);  // Emitir el cartón de bingo
+        }
+        if (data.numberDrawn) {
+          this.numbersSubject.next(data.numberDrawn);  // Emitir el número sorteado
+        }
+        if (data.event) {
+          this.eventsSubject.next(data.event);  // Emitir otros eventos (ej. inicio de juego)
+        }
       }
-    });
+    };
 
-    return this.cardSubject.asObservable();
+    this.eventSource.onerror = (error) => {
+      console.error('Error en la conexión SSE:', error);
+      this.eventsSubject.next('Error en la conexión SSE');
+    };
   }
 
-  // Método para suscribirse a los números sorteados
-  public subscribeToNumbers(roomId: number): Observable<number> {
-    const destination = `/topic/${roomId}/number`;
-    this.client.subscribe(destination, (message) => {
-      if (message.body) {
-        const number = parseInt(message.body, 10);
-        this.numberSubject.next(number);  // Emitir el número sorteado
-      }
-    });
-
-    return this.numberSubject.asObservable();
+  // Observables para suscribirse a los datos
+  getBingoCardObservable() {
+    return this.bingoCardSubject.asObservable();
   }
 
-  // Método para enviar mensajes al servidor WebSocket
-  public sendMessage(destination: string, body: string): void {
-    if (this.client.connected) {
-      this.client.publish({ destination, body });
+  getNumbersObservable() {
+    return this.numbersSubject.asObservable();
+  }
+
+  getEventsObservable() {
+    return this.eventsSubject.asObservable();
+  }
+
+  // Método para desconectar la conexión SSE
+  disconnect(): void {
+    if (this.eventSource) {
+      this.eventSource.close();
     }
   }
 }

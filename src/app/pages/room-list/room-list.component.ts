@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RoomService } from '../../services/Room.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { BingoService } from 'src/app/services/bingo.service';
 
 @Component({
   selector: 'app-room-list',
@@ -13,15 +14,19 @@ export class RoomListComponent implements OnInit {
   userId: number | null = null;
   newRoomName: string = '';
 
-  constructor(private roomService: RoomService, private authService: AuthService, private router: Router) {}
+  constructor(private roomService: RoomService, private authService: AuthService, private router: Router, private bingoService: BingoService) {}
 
+  
   ngOnInit(): void {
     this.getAllRooms();
     this.userId = this.authService.getUserId();
   }
 
-  goToBingoRoom(roomId: number, playerId: number): void {
-    this.router.navigate(['/bingo-room'], { queryParams: { roomId, playerId } });
+  goToBingoRoom(roomId: number, userId: number): void {
+    this.router.navigate(['/bingo-room'], {
+      queryParams: { roomId: roomId, playerId: this.userId }
+    });
+    
   }
 
   getAllRooms(): void {
@@ -60,12 +65,15 @@ export class RoomListComponent implements OnInit {
       console.error('El usuario no está logueado');
       return;
     }
-
+  
+    // Aquí, después de unirse a la sala, redirigimos a la sala de Bingo
     this.roomService.joinRoom(roomId, this.userId).subscribe({
       next: (response) => {
         console.log('Unido a la sala:', response);
-        alert('Te has unido a la sala correctamente.');
-        this.getAllRooms(); // Actualizar lista de salas
+        // Redirigir al componente de bingo con roomId y playerId como parámetros
+        this.router.navigate(['/bingo-room'], {
+          queryParams: { roomId: roomId, playerId: this.userId }
+        });
       },
       error: (error) => {
         console.error('Error al unirse a la sala:', error);
@@ -84,4 +92,5 @@ export class RoomListComponent implements OnInit {
       },
     });
   }
+
 }

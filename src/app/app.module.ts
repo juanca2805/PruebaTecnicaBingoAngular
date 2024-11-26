@@ -7,7 +7,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { RoomListComponent } from './pages/room-list/room-list.component';
 import { FormsModule } from '@angular/forms';  
 import { HttpClientModule } from '@angular/common/http';
-import { BingoRoomComponent } from './pages/bingo-room/bingo-room.component';
+import { BingoRoomComponent } from './bingo-room/bingo-room.component';
 
 @NgModule({
   declarations: [
