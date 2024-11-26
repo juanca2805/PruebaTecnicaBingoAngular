@@ -11,22 +11,23 @@ export class BingoService {
   constructor() {
     this.client = new Client();
 
-    // Convertir SockJS a IStompSocket
+    // Establecer la conexión al servidor WebSocket
     this.client.webSocketFactory = () => {
-      return new SockJS('http://localhost:8080/bingo') as IStompSocket;
+      return new SockJS('http://localhost:8080/') as IStompSocket;
     };
 
     this.client.onConnect = () => {
-      console.log('Connected to WebSocket');
+      console.log('Conectado al WebSocket');
     };
 
     this.client.onStompError = (error) => {
-      console.error('STOMP Error:', error);
+      console.error('Error STOMP:', error);
     };
 
-    this.client.activate();
+    this.client.activate(); // Activar la conexión al WebSocket
   }
 
+  // Método para enviar mensajes al servidor WebSocket
   public sendMessage(destination: string, body: string): void {
     if (this.client.connected) {
       this.client.publish({ destination, body });

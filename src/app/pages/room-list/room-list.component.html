@@ -1,1 +1,32 @@
-<p>room-list works!</p>
+<div>
+  <h3>Lista de Salas</h3>
+
+  <!-- Mostrar un mensaje de carga o error si no hay salas disponibles -->
+  <ul *ngIf="rooms && rooms.length > 0; else noRooms">
+    <li *ngFor="let room of rooms">
+      <h4>{{ room.name }}</h4>
+      <p>Jugadores:
+        <!-- Verifica si 'players' está definido y tiene elementos -->
+        <span *ngIf="room.players && room.players.length > 0">
+          {{ room.players.join(', ') }}
+        </span>
+        <span *ngIf="!room.players || room.players.length === 0">No hay jugadores aún.</span>
+      </p>
+      <!-- Botón de unirse habilitado si el usuario está logueado -->
+      <button *ngIf="userId" (click)="joinRoom(room.id)">Unirse</button>
+      <!-- Botón deshabilitado si el usuario no está logueado -->
+      <button *ngIf="!userId" disabled>Necesitas iniciar sesión para unirte</button>
+    </li>
+  </ul>
+
+  <!-- Si no hay salas, muestra este mensaje -->
+  <ng-template #noRooms>
+    <p>No hay salas disponibles.</p>
+  </ng-template>
+
+  <!-- Crear nueva sala -->
+  <div>
+    <input [(ngModel)]="newRoomName" placeholder="Nombre de la nueva sala" />
+    <button (click)="createRoom()">Crear Sala</button>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';  // Asegúrate de importar HttpClient
+import { HttpClient } from '@angular/common/http';  
 import { Router } from '@angular/router';
 
 @Component({
