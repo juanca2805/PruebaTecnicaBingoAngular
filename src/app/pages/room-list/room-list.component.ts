@@ -65,7 +65,6 @@ export class RoomListComponent implements OnInit {
       console.error('El usuario no está logueado');
       return;
     }
-  
     // Aquí, después de unirse a la sala, redirigimos a la sala de Bingo
     this.roomService.joinRoom(roomId, this.userId).subscribe({
       next: (response) => {
@@ -92,5 +91,7 @@ export class RoomListComponent implements OnInit {
       },
     });
   }
+
+  
 
 }

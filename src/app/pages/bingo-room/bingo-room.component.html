@@ -4,7 +4,7 @@
   <!-- Información de la sala y jugador -->
   <div class="room-info">
     <p>Sala: {{ roomId }}</p>
-    <p>Jugador: {{ playerId }}</p>
+    <p>Jugador: {{ userId }}</p>
   </div>
 
   <!-- Mensaje cuando el juego está por comenzar -->
@@ -14,21 +14,26 @@
   </div>
 
   <!-- Cartón de Bingo -->
-  <div class="bingo-card" *ngIf="bingoCard">
+  <div class="bingo-card" *ngIf="bingoCard.length > 0">
     <h2>Tu Cartón de Bingo</h2>
     <div class="card-grid">
-      <div class="card-cell" *ngFor="let row of bingoCard; let i = index">
+      <div class="card-cell" *ngFor="let row of bingoCard">
         <span *ngFor="let num of row">{{ num }}</span>
       </div>
     </div>
   </div>
 
   <!-- Números sorteados -->
-  <div class="numbers">
+  <div class="numbers" *ngIf="numbers.length > 0">
     <h2>Números Sorteados</h2>
     <ul>
       <li *ngFor="let number of numbers">{{ number }}</li>
     </ul>
+  </div>
+
+  <!-- Mensaje de "Juego Iniciado" -->
+  <div class="game-status" *ngIf="gameStarted">
+    <p>¡El juego ha comenzado!</p>
   </div>
 
   <!-- Botón de desconexión -->

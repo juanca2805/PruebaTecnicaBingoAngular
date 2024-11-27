@@ -1,0 +1,106 @@
+.bingo-room {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f4f4f9;
+}
+
+h1 {
+  text-align: center;
+  color: #2c3e50;
+}
+
+.room-info {
+  background-color: #fff;
+  padding: 10px;
+  margin: 20px 0;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.room-info p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.game-status {
+  background-color: #e74c3c;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.game-status p {
+  margin: 5px 0;
+  font-size: 18px;
+}
+
+.bingo-card {
+  margin: 20px 0;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  justify-items: center;
+}
+
+.card-cell {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ecf0f1;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #3498db;
+}
+
+.numbers {
+  margin: 20px 0;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.numbers h2 {
+  text-align: center;
+  color: #2c3e50;
+}
+
+.numbers ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.numbers li {
+  font-size: 16px;
+  padding: 5px 0;
+  text-align: center;
+}
+
+.disconnect-button {
+  display: block;
+  width: 200px;
+  margin: 20px auto;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.disconnect-button:hover {
+  background-color: #c0392b;
+}

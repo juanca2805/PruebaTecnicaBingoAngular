@@ -38,4 +38,6 @@ export class AuthService {
   getUserId(): number | null {
     return this.userId;
   }
+
+  
 }
